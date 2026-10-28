@@ -1,0 +1,11 @@
+{
+  "name": "student-attendance-management",
+  "version": "1.0.0",
+  "description": "Student Attendance Management System with DevOps workflow",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": { "node": ">=22.5.0" }
+}

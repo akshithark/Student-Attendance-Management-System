@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student-attendance
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: attendance-data
+  namespace: student-attendance
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attendance-app
+  namespace: student-attendance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: attendance-app
+  template:
+    metadata:
+      labels:
+        app: attendance-app
+    spec:
+      containers:
+        - name: attendance-app
+          image: student-attendance-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: DATA_DIR
+              value: /app/data
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: attendance-data
+              mountPath: /app/data
+      volumes:
+        - name: attendance-data
+          persistentVolumeClaim:
+            claimName: attendance-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: attendance-service
+  namespace: student-attendance
+spec:
+  selector:
+    app: attendance-app
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: ClusterIP

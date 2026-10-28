@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student Attendance Management System</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><div><p class="eyebrow">DEVOPS LAB PROJECT</p><h1>Student Attendance Management System</h1><p>Register students, record daily attendance, and review attendance percentages.</p></div><span class="status"><i></i> System dashboard</span></header>
+<main>
+<section class="stats">
+<div class="stat"><span>Total Students</span><strong id="studentCount">0</strong></div>
+<div class="stat"><span>Attendance Records</span><strong id="recordCount">0</strong></div>
+<div class="stat"><span>Average Attendance</span><strong id="average">0%</strong></div>
+</section>
+<div class="grid">
+<section class="panel"><h2>Register Student</h2><form id="studentForm">
+<label>Roll Number<input name="rollNo" placeholder="e.g. 23911A6601" required></label>
+<label>Student Name<input name="name" placeholder="Full name" required></label>
+<label>Department / Class<input name="department" placeholder="CSE-AIML-A" required></label>
+<button type="submit">Add Student</button><p class="message" id="studentMessage"></p>
+</form></section>
+<section class="panel"><h2>Mark Attendance</h2><form id="attendanceForm">
+<label>Student<select name="studentId" id="studentSelect" required><option value="">Register a student first</option></select></label>
+<label>Date<input type="date" name="date" id="attendanceDate" required></label>
+<label>Status<select name="status"><option>Present</option><option>Absent</option><option>Late</option></select></label>
+<button type="submit">Save Attendance</button><p class="message" id="attendanceMessage"></p>
+</form></section></div>
+<section class="panel"><div class="section-head"><div><h2>Student Directory</h2><p>Search by roll number, name, or department.</p></div><input id="search" placeholder="Search students…"></div>
+<div class="table-wrap"><table><thead><tr><th>Roll No.</th><th>Name</th><th>Department</th></tr></thead><tbody id="students"></tbody></table></div></section>
+<section class="panel"><div class="section-head"><div><h2>Attendance Records</h2><p>Records for the selected date.</p></div><div class="actions"><input type="date" id="filterDate"><button class="secondary" id="export">Export CSV</button></div></div>
+<div class="table-wrap"><table><thead><tr><th>Roll No.</th><th>Name</th><th>Date</th><th>Status</th></tr></thead><tbody id="attendance"></tbody></table></div></section>
+<section class="panel"><h2>Attendance Summary</h2><div class="table-wrap"><table><thead><tr><th>Roll No.</th><th>Name</th><th>Present / Late</th><th>Total Records</th><th>Attendance %</th></tr></thead><tbody id="reports"></tbody></table></div></section>
+</main><footer>Student Attendance Management System · Node.js · Git · Docker · Jenkins · Kubernetes</footer>
+<script src="/app.js"></script>
+</body></html>
