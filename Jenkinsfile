@@ -2,6 +2,10 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "C:\\Program Files\\nodejs;C:\\Users\\HP\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin;${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -11,20 +15,21 @@ pipeline {
 
         stage('Validate') {
             steps {
-                bat '"C:\\Program Files\\nodejs\\node.exe" --version'
-                bat '"C:\\Program Files\\nodejs\\npm.cmd" --version'
+                bat 'node --version'
+                bat 'npm --version'
+                bat 'docker --version'
             }
         }
 
         stage('Test') {
             steps {
-                bat '"C:\\Program Files\\nodejs\\npm.cmd" test'
+                bat 'npm test'
             }
         }
 
         stage('Docker Build') {
             steps {
-                bat '"C:\\Users\\HP\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" build -t student-attendance-app:latest .'
+                bat 'docker build -t student-attendance-app:latest .'
             }
         }
     }
